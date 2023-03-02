@@ -6,8 +6,24 @@ const App = () => {
 
   const allNewDice = () => {
     const rand = [...Array(10)].map((_) => Math.ceil(Math.random() * 6));
-    setDice(rand.map((el) => ({ ["value"]: el, ["isHeld"]: false })));
-    console.log("dice", dice);
+    console.log("rand", rand);
+
+    const updatedDice =
+      dice.length === 1
+        ? rand.map((el) => ({
+            value: el,
+            isHeld: false,
+          }))
+        : rand.map((el, i) => {
+            return dice[i].isHeld
+              ? dice[i]
+              : {
+                  value: el,
+                  isHeld: false,
+                };
+          });
+
+    setDice(updatedDice);
   };
 
   const holdDice = (el, index) => {
@@ -18,14 +34,8 @@ const App = () => {
       })
     );
 
-    // }
-    //push to github
-    //testing
-    //testing again
-
     const heldEl = { ...el, isHeld: !el.isHeld };
     console.log("heldEl", heldEl);
-    // const updatedDice = setDice(...dice, heldEl);
   };
 
   const newDiceFaces = dice.map((el, i) => (
